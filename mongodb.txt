@@ -1,0 +1,88 @@
+//MONGOBD = É UM SISTEMA DE GERENCIAMENTO DE DADOS QUE VAMOS ULTILIZAR. O MONGO JUNTO COM O NODE PODEM SER CAPAZES DE FAZER INFINITOS TIPOS DE SISTEMAS. O MONGO DB É UM GERENCIADOR DE BANCO DE DADOS QUE UTILIZA O NOSIGLE, ISSO SIGNIFICA Q ELE TMB TRABALHA COM DOCUMENTOS E COLEÇÕES, ASSIM COMO O FIREBASE E FIRESTORE.O MONGODB TE DA MAIS CONTROLE A SEUS DADOS E NORMALMENTE QUEM FAZ O ACESSO AO MONGO É SÓ O BACKEND.
+
+//Para baixar o mongo vá ate e baixe o mongo
+https://www.mongodb.com/pt-br/what-is-mongodb
+
+//Caso o mongodb n tenha inicializado o servico use:(lembre-se de por a versao q voce baixou):
+"C:\Program Files\MongoDB\Server\4.0\bin\mongod.exe"
+
+//Caso de erro requerindo alguma pasta crie a pasta com o seguinte comando:
+mkdir \data\db
+
+//Para acessar o mongodb pelo shell(terminal),use:
+"C:\Program Files\MongoDB\Server\5.0\bin\mongo.exe"
+
+//para mostrar os bancos de dados que temos no mongodb,use:
+show dbs
+
+//para saber o banco que estamos setados,use:
+db
+
+//para criar um banco de dados,use 'use nomeBanco' e crie algo nele usando o db.createCollection('nomedacolecao'):
+use NovoBanco
+
+//para criar uma coleção,use:
+db.createCollection('somecollection')
+
+//para apagar o banco e tudo q estiver dentro,use:
+db.dropDatabase()
+
+//para entrarmos em outro banco,use:
+use nomeDoBanco
+
+//Para criar uma coleção,use:
+db.createCollection('nomedacolecao')
+
+//Para excluir uma coleção,use:
+db.nomedacolecao.drop()
+
+//para ver todas as coleções de um banco de dados,use:
+show collections
+
+//como inserir um documento na nossa coleção,use:
+db.nomeColecao.insertOne({name:"fernando", password:"1234", email:"feh@gmail.com"})
+
+//como inserir varios documentos na nossa coleção,use:
+db.users.insertMany([{name:"José"}, {name:"Marcela"}, {name:"Jonas"}])
+
+//como selecionar um documento da nossa coleção,use:
+//O find() ira retornar todos os documentos da colecao
+db.nomecolecao.find()
+//o findOne() ira retornar apenas um documento da nossa colecao,o primeiro
+db.nomecolecao.findOne()
+//como trazer uma certa quantidade de documentos,use o .limit(2), ira limitar a 2 por exemplo
+db.nomecolecao.find().limit(2)
+db.nomecolecao.find().limit(3)//ou 3 tanto faz
+
+//como mostrar os documentos de uma forma mais organizada?use o pretty:
+db.nomecolecao.find().pretty()
+
+//como trazer apenas os documentos que tenha o que a gente pedir,exemplo "vamos querer ver apenas o documento que tenha um 'tel:"2345678"' ",use:
+db.nomecolecao.find({tel:"2345678"})
+
+//como saber quantos documentos atendem o que foi pesquisado,use:
+db.nomecolecao.find({type:"admin"}).count()
+
+//como trazer os nossos documentos em ordem alfabetica(1 = do menor pro maior)(-1 = do maior pro menor),use:
+db.users.find().sort({name:1}).pretty()
+
+//como fazer um update em um dos nossos elementos atraves do shell,use:
+db.nomecolecao.updateOne({name:"Marcela"}, {$set:{tel:"3334444"}})
+
+//para modificar todos os elementos,vamos colocar uma nova propriedade que é a turma,use:
+db.nomecolecao.updateMany({},{$set:{class:"2001"}})
+
+//para remover uma propriedade do nosso documento,vamos remover a propriedade class,use:
+db.nomecolecao.updateMany({},{$unset:{class:""}})
+
+//para sobreescrever nosso documento,use:
+db.nomecolecao.update({name:"Igor"},{name:"Igor", password:"dadada123"})
+
+//podemos fazer tambem;quero fazer o update se tiver aquele elemento,mas se ele n existir vamos criar ele,use:
+db.nomecolecao.update({name:"Fernando Alexandre"}, {name:"Fernando", password:"321321"},{upsert:true})
+
+//Como renomear uma propriedade do nosso elemento,vamos mudar a propriedade 'visits' para 'views',use:
+db.nomecolecao.updateMany({}, {$rename:{visits:"views"}})
+
+//Como incrementar essas views, vamos dizer que Jonas acessou mais uma vez a nossa pagina entao vamos somar + 1 no views dele,use:
+db.nomecolecao.updateOne({name:"Jonas"}, {$inc:{views:1}})
